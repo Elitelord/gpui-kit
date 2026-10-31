@@ -253,6 +253,27 @@ fn selectable_cells_report_their_selection(cx: &mut TestAppContext) {
     .unwrap();
 }
 
+/// Tab focuses the grid itself, not a wrapper without a role, so assistive
+/// technology has a node to report as focused.
+#[gpui_kit::test]
+fn tab_focuses_the_table_grid(cx: &mut TestAppContext) {
+    cx.update(gpui_kit::init);
+    let (handle, _) = common::open_window(cx, Some(size(px(640.), px(320.))), |window, cx| {
+        cx.new(|cx| LabelledRecords {
+            table: cx.new(|cx| TableState::new(LabelledRows, window, cx)),
+        })
+    });
+    cx.update_window(handle.into(), |_, window, cx| {
+        window.render_frame(cx);
+        window.focus_next(cx);
+        window.render_frame(cx);
+        let grid = window.find("table-inner");
+        assert_eq!(grid.role(), Some(gpui_kit::Role::Grid));
+        assert_eq!(grid.focused(), Some(true));
+    })
+    .unwrap();
+}
+
 struct RecordsBelowLabel {
     table: Entity<TableState<Rows>>,
 }

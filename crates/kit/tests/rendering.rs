@@ -959,7 +959,7 @@ mod rendering {
         cx.update_window(handle, |_, window, cx| {
             window.press("tab", cx);
             window.render_frame(cx);
-            assert_eq!(window.find("table").focused(), Some(true));
+            assert_eq!(window.find("table-inner").focused(), Some(true));
         })
         .unwrap();
         let focused = Capture::take(&mut cx, handle);
@@ -991,7 +991,7 @@ mod rendering {
             window.click_at("table", offset, cx);
             window.render_frame(cx);
             assert_eq!(
-                window.find("table").focused(),
+                window.find("table-inner").focused(),
                 Some(true),
                 "the click must focus the table"
             );

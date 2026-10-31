@@ -208,7 +208,6 @@ where
             .test_support()
             .size_full()
             .key_context(CONTEXT)
-            .track_focus(&focus_handle)
             .on_action(window.listener_for(&self.state, TableState::action_cancel))
             .on_action(window.listener_for(&self.state, TableState::action_select_next))
             .on_action(window.listener_for(&self.state, TableState::action_select_prev))
