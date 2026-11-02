@@ -1564,7 +1564,10 @@ where
                 .aria_selected(is_selected)
                 // While the table has focus, the selected cell is the
                 // focused node for assistive technology.
-                .when(is_selected, |this| this.aria_active_descendant())
+                .when(
+                    is_selected && self.focus_handle.is_focused(window),
+                    |this| this.aria_active_descendant(),
+                )
         } else {
             cell.role(gpui::Role::Cell)
         };
@@ -2261,7 +2264,10 @@ where
                 .aria_selected(is_selected)
                 // While the table has focus, the selected row is the focused
                 // node for assistive technology.
-                .when(is_selected, |this| this.aria_active_descendant())
+                .when(
+                    is_selected && self.focus_handle.is_focused(window),
+                    |this| this.aria_active_descendant(),
+                )
                 .h_flex()
                 .w_full()
                 .h(row_height)
